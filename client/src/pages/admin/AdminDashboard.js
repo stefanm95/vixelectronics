@@ -4,11 +4,16 @@ import { getOrders, changeStatus } from "../../functions/admin";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Orders from "../../components/order/Orders";
+import SalesReport from "../../components/reports/Report";
+import { DatePicker } from "antd";
+import "react-datepicker/dist/react-datepicker.css";
+
+const { RangePicker } = DatePicker;
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const { user } = useSelector((state) => ({ ...state }));
-
+  const [dateRange, setDateRange] = useState([]);
   useEffect(() => {
     loadOrders();
   }, []);
@@ -36,7 +41,20 @@ const AdminDashboard = () => {
         <div className="col-md-10">
           <h4>Admin Dashboard</h4>
           {/* {JSON.stringify(orders)} */}
-          <Orders orders={orders} handleStatusChange={handleStatusChange} />
+          <Orders
+            orders={orders}
+            handleStatusChange={handleStatusChange}
+            dateRange={dateRange}
+          />
+          <SalesReport
+            orders={orders}
+            startDate={dateRange[0]}
+            endDate={dateRange[1]}
+          />
+          <RangePicker
+            onChange={setDateRange}
+            style={{ marginBottom: "20px" }}
+          />
         </div>
       </div>
     </div>

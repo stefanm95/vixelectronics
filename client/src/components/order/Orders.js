@@ -1,8 +1,24 @@
 import React from "react";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import ShowPaymentInfo from "../cards/ShowPaymentInfo";
+import { DatePicker } from "antd";
+import { useState } from "react";
+import moment from "moment";
+import { toast } from "react-toastify";
 
-const Orders = ({ orders, handleStatusChange }) => {
+const { RangePicker } = DatePicker;
+
+const Orders = ({ orders, handleStatusChange, startDate, endDate }) => {
+  const [dateRange, setDateRange] = useState([]);
+
+  const filteredOrders = orders.filter((order) => {
+    const orderDate = new Date(order.createdAt);
+    return (
+      !dateRange.length ||
+      (orderDate >= dateRange[0] && orderDate <= dateRange[1])
+    );
+  });
+
   const showOrderInTable = (order) => (
     <table className="table table-bordered">
       <thead className="thead-light">
@@ -41,7 +57,30 @@ const Orders = ({ orders, handleStatusChange }) => {
 
   return (
     <>
-      {orders.map((order) => (
+      <div className="form-group">
+        <RangePicker
+          onChange={(dates) => {
+            if (dates === null) {
+              setDateRange([]);
+            } else if (
+              dates &&
+              dates[1] &&
+              moment(dates[1]).isAfter(moment())
+            ) {
+              toast.error("You cannot select a date in the future.");
+            } else {
+              setDateRange(dates);
+            }
+          }}
+          style={{
+            width: "50%",
+            borderRadius: "5px",
+            border: "1px solid #ced4da",
+          }}
+          className="form-control"
+        />
+      </div>
+      {filteredOrders.map((order) => (
         <div key={order._id} className="row pb-5">
           <div className="btn btn-block bg-light">
             <ShowPaymentInfo order={order} showStatus={false} />

@@ -45,6 +45,12 @@ const AdminNav = () => (
           Password
         </Link>
       </li>
+
+      <li className="nav-item">
+        <Link to="/admin/sales/raport" className="nav-link">
+          Sales Raport
+        </Link>
+      </li>
     </ul>
   </nav>
 );

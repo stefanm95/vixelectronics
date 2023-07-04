@@ -7,9 +7,7 @@ import { Card } from "antd";
 import { DollarOutlined, CheckOutlined, SwapOutlined } from "@ant-design/icons";
 import Laptop from "../images/laptop.png";
 import { createOrder, emptyUserCart } from "../functions/user";
-
-import axios from 'axios'
-
+import { sendInvoiceEmail } from "../functions/email";
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
   const { user, coupon } = useSelector((state) => ({ ...state }));
@@ -38,21 +36,7 @@ const StripeCheckout = ({ history }) => {
     });
   }, [user.token, coupon]);
 
-  const sendEmailWithInvoice = () => {
-      axios
-        .post(`${process.env.REACT_APP_API}/sendInvoice`, {
-          recipientEmail: user.email, // Replace with the actual recipient email address
-          // Include any other necessary data for sending the email
-        })
-        .then((response) => {
-          console.log(response.data);
-          // Handle successful email sending
-        })
-        .catch((error) => {
-          console.error('Error sending email:', error);
-          // Handle error case
-        });
-    };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -89,7 +73,7 @@ const StripeCheckout = ({ history }) => {
           });
           // empty cart from database
           emptyUserCart(user.token);
-          sendEmailWithInvoice();
+          sendInvoiceEmail(user.token);
         }
       });
       // empty user cart from redux store and local storage

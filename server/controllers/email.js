@@ -1,54 +1,41 @@
-const { admin } = require('../firebase/index');
-const PDFDocument = require('pdfkit');
+const nodemailer = require('nodemailer');
 
-const generateInvoicePDF = (order) => {
-  const doc = new PDFDocument();
-
-  // Generate the invoice content using the order details
-  doc.fontSize(18).text(`Invoice for Order #${order._id}`, 50, 50);
-
-  // Include other necessary invoice details
-
-  return doc;
-};
-
-const sendInvoiceEmail = async (req, res) => {
+const sendInvoiceEmail = async (recipientEmail, order) => {
   try {
-    const { recipientEmail, order } = req.body;
-
-    // Generate the invoice PDF
-    const invoicePDF = generateInvoicePDF(order);
-
-    // Convert the PDF document to a buffer
-    const pdfBuffer = await new Promise((resolve, reject) => {
-      const chunks = [];
-      invoicePDF.on('data', (chunk) => chunks.push(chunk));
-      invoicePDF.on('end', () => resolve(Buffer.concat(chunks)));
-      invoicePDF.on('error', reject);
+    // Create a nodemailer transport
+    const transporter = nodemailer.createTransport({
+      host: "sandbox.smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: "5589f43fd3aaab",
+        pass: "7b549f49e9b1a9"
+      }
     });
 
-    // Send the email using Firebase
-    const email = {
+    // Customize the email content with the necessary order details
+    const emailContent = `
+      <p>Dear Customer,</p>
+      <p>Thank you for your order. Here is the invoice for your purchase:</p>
+      <p>Order ID: ${order._id}</p>
+      <p>Order Total: ${order.total}</p>
+      <!-- Include any other necessary order details -->
+    `;
+
+    // Create the email message
+    const message = {
+      from: 'test@vixmail.com',
       to: recipientEmail,
-      message: {
-        subject: 'Invoice',
-        text: 'Please find attached the invoice.',
-        attachments: [
-          {
-            filename: 'invoice.pdf',
-            type: 'application/pdf',
-            content: pdfBuffer.toString('base64'),
-          },
-        ],
-      },
+      subject: 'Invoice for your order',
+      html: emailContent,
     };
 
-    await admin.messaging().send(email);
+    // Send the email
+    const info = await transporter.sendMail(message);
 
-    res.json({ message: 'Email sent' });
+    console.log('Email sent:', info);
   } catch (error) {
     console.error('Error sending email:', error);
-    res.status(500).json({ error: 'Failed to send email' });
+    throw new Error('Failed to send email');
   }
 };
 
