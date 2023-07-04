@@ -100,7 +100,7 @@ const CreateCouponPage = () => {
                 className="form-control"
                 selected={new Date()}
                 value={expiry}
-                onChange={(date) => setExpiry(date)}
+                onChange={(date) => setExpiry(date.toLocaleDateString())}
                 required
               />
             </div>

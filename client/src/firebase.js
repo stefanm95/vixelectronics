@@ -2,13 +2,13 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAjAcQHRhPWjsUBB9XNaxny2lapo2f9Ez8",
-  authDomain: "vixelectronics2.firebaseapp.com",
-  projectId: "vixelectronics2",
-  storageBucket: "vixelectronics2.appspot.com",
-  messagingSenderId: "452767649183",
-  appId: "1:452767649183:web:47a246acdeb6b72e2581aa",
-  measurementId: "G-9L5WBMJNLR"
+  apiKey: "AIzaSyBLs2yPZbmo8XpaHTqr8EbPv72W5v4VFrk",
+  authDomain: "vixelectronics3.firebaseapp.com",
+  projectId: "vixelectronics3",
+  storageBucket: "vixelectronics3.appspot.com",
+  messagingSenderId: "408072622542",
+  appId: "1:408072622542:web:192f44c52136c159ec9b9f",
+  measurementId: "G-T8HV72YQ3V"
 };
 // Initialize Firebase
 // initialize firebase app

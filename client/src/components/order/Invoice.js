@@ -8,7 +8,7 @@ import {
   DataTableCell,
 } from "@david.kucsai/react-pdf-table";
 
-const Invoice = ({ order }) => (
+const Invoice = ({ order, cartItems }) => (
   <Document>
     <Page style={styles.body}>
       <Text style={styles.header} fixed>
