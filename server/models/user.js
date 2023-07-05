@@ -24,3 +24,22 @@ const userSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("User", userSchema);
+
+// const User = require('./userSchema'); // Importarea modelului User
+
+// const newUser = new User({
+//   name: "John Doe",
+//   email: "john.doe@example.com",
+//   role: "subscriber",
+//   cart: [],
+//   address: "123 Street, City",
+//   wishlist: [],
+// });
+
+// newUser.save((err, user) => {
+//   if (err) {
+//     console.error(err);
+//   } else {
+//     console.log("Utilizatorul a fost salvat cu succes:", user);
+//   }
+// });
