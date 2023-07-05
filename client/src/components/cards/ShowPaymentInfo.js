@@ -1,36 +1,40 @@
 import React from "react";
 
 const ShowPaymentInfo = ({ order, showStatus = true }) => (
-  <div>
-    <p>
-      <span>Order Id: {order.paymentIntent.id}</span>
-      {" / "}
-      <span>
-        Amount:{" / "}
-        {(order.paymentIntent.amount /= 100).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
-      </span>
-      {" / "}
-      <span>Currency: {order.paymentIntent.currency.toUpperCase()}</span>
-      {" / "}
-      <span>Method: {order.paymentIntent.payment_method_types[0]}</span>
-      {" / "}
-      <span>Payment: {order.paymentIntent.status.toUpperCase()}</span>
-      {" / "}
-      <span>
-        Orderd on:{" / "}
-        {new Date(order.paymentIntent.created * 1000).toLocaleString()}
-      </span>
-      {" / "}
-      <br />
-      {showStatus && (
-        <span className="badge bg-primary text-white">
-          STATUS: {order.orderStatus}
-        </span>
-      )}
-    </p>
+  <div className="card bg-light border-o" style={{boxShadow: "none"}}>
+    <div className="card-body">
+      <div className="row">
+        <div className="col-md-6 col-sm-12">
+          <p>Order Id: {order.paymentIntent.id}</p>
+        </div>
+        <div className="col-md-6 col-sm-12">
+          <p>
+            Amount:{" "}
+            {(order.paymentIntent.amount /= 100).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
+        </div>
+        <div className="col-md-6 col-sm-12">
+          <p>Currency: {order.paymentIntent.currency.toUpperCase()}</p>
+        </div>
+        <div className="col-md-6 col-sm-12">
+          <p>Method: {order.paymentIntent.payment_method_types[0]}</p>
+        </div>
+        <div className="col-md-6 col-sm-12">
+          <p>Payment: {order.paymentIntent.status.toUpperCase()}</p>
+        </div>
+        <div className="col-md-6 col-sm-12">
+          <p>Orderd on: {new Date(order.createdAt).toLocaleString()}</p>
+        </div>
+        {showStatus && (
+          <div className="badge bg-primary text-white">
+            STATUS: {order.orderStatus}
+          </div>
+        )}
+      </div>
+    </div>
   </div>
 );
 

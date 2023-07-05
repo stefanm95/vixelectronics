@@ -31,7 +31,6 @@ const SalesReport = ({ orders, startDate, endDate }) => {
 
     return (
         <div>
-            <h2>Sales Report</h2>
             <table className='table'>
                 <thead>
                     <tr>

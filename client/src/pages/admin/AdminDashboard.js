@@ -39,21 +39,12 @@ const AdminDashboard = () => {
         </div>
 
         <div className="col-md-10">
-          <h4>Admin Dashboard</h4>
+          <h2>Admin Dashboard</h2>
           {/* {JSON.stringify(orders)} */}
           <Orders
             orders={orders}
             handleStatusChange={handleStatusChange}
             dateRange={dateRange}
-          />
-          <SalesReport
-            orders={orders}
-            startDate={dateRange[0]}
-            endDate={dateRange[1]}
-          />
-          <RangePicker
-            onChange={setDateRange}
-            style={{ marginBottom: "20px" }}
           />
         </div>
       </div>

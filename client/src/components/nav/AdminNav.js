@@ -23,6 +23,12 @@ const AdminNav = () => (
       </li>
 
       <li className="nav-item">
+        <Link to="/admin/product-inventory" className="nav-link">
+          Products Inventory
+        </Link>
+      </li>
+
+      <li className="nav-item">
         <Link to="/admin/category" className="nav-link">
           Category
         </Link>
@@ -47,8 +53,8 @@ const AdminNav = () => (
       </li>
 
       <li className="nav-item">
-        <Link to="/admin/sales/raport" className="nav-link">
-          Sales Raport
+        <Link to="/admin/sales-report" className="nav-link">
+          Sales Report
         </Link>
       </li>
     </ul>

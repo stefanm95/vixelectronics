@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const { RangePicker } = DatePicker;
 
-const Orders = ({ orders, handleStatusChange, startDate, endDate }) => {
+const Orders = ({ orders, handleStatusChange }) => {
   const [dateRange, setDateRange] = useState([]);
 
   const filteredOrders = orders.filter((order) => {
@@ -58,6 +58,7 @@ const Orders = ({ orders, handleStatusChange, startDate, endDate }) => {
   return (
     <>
       <div className="form-group">
+      <h4>Orders History </h4>
         <RangePicker
           onChange={(dates) => {
             if (dates === null) {
