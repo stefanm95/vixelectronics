@@ -26,7 +26,7 @@ const RatingModal = ({ children }) => {
   return (
     <>
       <div onClick={handleModal}>
-        <StarOutlined className="text-danger" /> <br />{" "}
+        <StarOutlined style={{color: "#FFD700"}} /> <br />{" "}
         {user ? "Leave rating" : "Login to leave rating"}
       </div>
       <Modal

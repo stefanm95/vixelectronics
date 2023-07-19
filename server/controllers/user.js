@@ -83,6 +83,13 @@ exports.saveAddress = async (req, res) => {
   res.json({ ok: true });
 };
 
+exports.getAddress = async(req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  res.json({address: user.address});
+//  console.log(user.address);
+  // console.log(`user address: `, res.json({address: user.address}));
+}
+
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
   console.log("COUPON", coupon);

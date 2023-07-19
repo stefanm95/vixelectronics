@@ -7,9 +7,12 @@ import {
   saveUserAddress,
   applyCoupon,
   createCashOrderForUser,
+  getUserAddress,
 } from "../functions/user";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Card, Button, Input, Typography, Row, Col, notification } from "antd";
+const { TextArea } = Input;
+const { Title } = Typography;
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
@@ -31,6 +34,7 @@ const Checkout = ({ history }) => {
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
     });
+    loadUserAddress();
   }, []);
 
   const emptyCart = () => {
@@ -51,6 +55,22 @@ const Checkout = ({ history }) => {
       setCoupon("");
       toast.success("Cart is emapty. Contniue shopping.");
     });
+  };
+
+  const loadUserAddress = async () => {
+    try {
+      console.log("user token: ", user.token);
+      const res = await getUserAddress(user.token);
+      console.log(`response:`, res);
+      if (res.data) {
+        setAddress(res.data.address);
+        setAddressSaved(true);
+      }else {
+        setAddressSaved(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const saveAddressToDb = () => {
@@ -89,7 +109,7 @@ const Checkout = ({ history }) => {
 
   const showAddress = () => (
     <>
-      <ReactQuill theme="snow" value={address} onChange={setAddress} />
+      <textarea value={address} onChange={(e) => setAddress(e.target.value)} />
       <button className="btn btn-primary mt-2" onClick={saveAddressToDb}>
         Save
       </button>
@@ -156,68 +176,87 @@ const Checkout = ({ history }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-md-6">
-        <h4>Delivery Address</h4>
-        <br />
-        <br />
-        {showAddress()}
-        <hr />
-        <h4>Got Coupon?</h4>
-        <br />
-        {showApplyCoupon()}
-        <br />
-        {discountError && <p className="bg-danger p-2">{discountError}</p>}
-      </div>
+    <Row gutter={16}>
+      <Col span={12}>
+        <Title level={4}>Delivery Address</Title>
+        <Card>
+          <TextArea
+            rows={4}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Button type="primary" className="mt-2" onClick={saveAddressToDb}>
+            Save
+          </Button>
+        </Card>
 
-      <div className="col-md-6">
-        <h4>Order Summary</h4>
-        <hr />
-        <p>Products {products.length}</p>
-        <hr />
-        {showProductSummary()}
-        <hr />
-        <p>Cart Total: {total}</p>
+        <Title level={4} className="mt-4">
+          Got Coupon?
+        </Title>
+        <Card>
+          <Input
+            onChange={(e) => {
+              setCoupon(e.target.value);
+              setDiscountError("");
+            }}
+            value={coupon}
+            type="text"
+          />
+          <Button type="primary" className="mt-2" onClick={applyDiscountCoupon}>
+            Apply
+          </Button>
+        </Card>
+        {discountError && notification.error({ message: discountError })}
+      </Col>
 
-        {totalAfterDiscount > 0 && (
-          <p className="bg-success p-2">
-            Discount Applied: Total Payable: ${totalAfterDiscount}
-          </p>
-        )}
+      <Col span={12}>
+        <Title level={4}>Order Summary</Title>
+        <Card>
+          <p>Products {products.length}</p>
+          {showProductSummary()}
+          <hr />
+          <p>Cart Total: ${total}</p>
 
-        <div className="row">
-          <div className="col-md-6">
-            {COD ? (
-              <button
-                className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
-                onClick={createCashOrder}
+          {totalAfterDiscount > 0 && (
+            <p className="text-success">
+              Discount Applied: Total Payable: ${totalAfterDiscount}
+            </p>
+          )}
+
+          <Row gutter={16} className="mt-4">
+            <Col span={12}>
+              {COD ? (
+                <Button
+                  type="primary"
+                  disabled={!addressSaved}
+                  onClick={createCashOrder}
+                >
+                  Place Order
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  disabled={!addressSaved || !products.length}
+                  onClick={() => history.push("/payment")}
+                >
+                  Place Order
+                </Button>
+              )}
+            </Col>
+
+            <Col span={12}>
+              <Button
+                type="danger"
+                disabled={!products.length}
+                onClick={emptyCart}
               >
-                Place Order
-              </button>
-            ) : (
-              <button
-                className="btn btn-primary"
-                disabled={!addressSaved || !products.length}
-                onClick={() => history.push("/payment")}
-              >
-                Place Order
-              </button>
-            )}
-          </div>
-
-          <div className="col-md-6">
-            <button
-              disabled={!products.length}
-              onClick={emptyCart}
-              className="btn btn-primary"
-            >
-              Empty Cart
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+                Empty Cart
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

@@ -71,7 +71,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
       history.push("/user/wishlist");
     });
   };
-
+//bg-dark,light,info,warning,danger,success,secondary
   return (
     <>
       <div className="col-md-7">
@@ -88,13 +88,13 @@ const SingleProduct = ({ product, onStarClick, star }) => {
             {description && description}
           </TabPane>
           <TabPane tab="More" key="2">
-            Call use on xxxx xxx xxx to learn more about this product.
+            Call us on xxxx xxx xxx to learn more about this product.
           </TabPane>
         </Tabs>
       </div>
 
       <div className="col-md-5">
-        <h1 className="bg-info p-3">{title}</h1>
+        <h1 className="bg-dark p-3 custom-title" style={{color: "white"}}>{title}</h1>
 
         {product && product.ratings && product.ratings.length > 0 ? (
           showAverage(product)
@@ -121,7 +121,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
                 rating={star}
                 changeRating={onStarClick}
                 isSelectable={true}
-                starRatedColor="red"
+                starRatedColor="RGB(255, 215, 0)"
               />
             </RatingModal>,
           ]}

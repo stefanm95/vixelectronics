@@ -29,6 +29,12 @@ const AdminNav = () => (
       </li>
 
       <li className="nav-item">
+        <Link to="/admin/sales-report" className="nav-link">
+          Sales Report
+        </Link>
+      </li>
+
+      <li className="nav-item">
         <Link to="/admin/category" className="nav-link">
           Category
         </Link>
@@ -49,12 +55,6 @@ const AdminNav = () => (
       <li className="nav-item">
         <Link to="/user/password" className="nav-link">
           Password
-        </Link>
-      </li>
-
-      <li className="nav-item">
-        <Link to="/admin/sales-report" className="nav-link">
-          Sales Report
         </Link>
       </li>
     </ul>

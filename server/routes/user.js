@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // middlewares
-const { authCheck } = require("../middlewares/auth");
+const { authCheck, adminCheck } = require("../middlewares/auth");
 // controllers
 const {
   userCart,
@@ -17,12 +17,15 @@ const {
   wishlist,
   removeFromWishlist,
   createCashOrder,
+  getAddress,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); // save cart
 router.get("/user/cart", authCheck, getUserCart); // get cart
 router.delete("/user/cart", authCheck, emptyCart); // empty cart
+
 router.post("/user/address", authCheck, saveAddress);
+router.get("/user/address", authCheck, getAddress);
 
 router.post("/user/order", authCheck, createOrder); // stripe
 router.post("/user/cash-order", authCheck, createCashOrder); // cod

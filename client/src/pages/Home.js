@@ -4,13 +4,13 @@ import NewArrivals from "../components/home/NewArrivals";
 import BestSellers from "../components/home/BestSellers";
 import CategoryList from "../components/category/CategoryList";
 import SubList from "../components/sub/SubList";
-
+import Footer from "../components/nav/Footer";
 const Home = () => {
   return (
     <>
-      <div className="jumbotron text-danger h1 font-weight-bold text-center">
+      {/*<div className="jumbotron text-dark h1 font-weight-bold text-center">
         <Jumbotron text={["Latest Products", "New Arrivals", "Best Sellers"]} />
-      </div>
+      </div>*/}
 
       <h4 className="text-center p-3 mt-5 mb-5 display-4 jumbotron">
         New Arrivals
@@ -34,6 +34,7 @@ const Home = () => {
 
       <br />
       <br />
+      <Footer />
     </>
   );
 };
